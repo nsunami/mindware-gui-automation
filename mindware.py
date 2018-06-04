@@ -1,7 +1,7 @@
 # automate mindware event file export
 
 import pyautogui, time, os, re
-pyautogui.PAUSE = .2
+pyautogui.PAUSE = .8
 pyautogui.FAILSAFE = True
 
 width, height = pyautogui.size()
@@ -42,7 +42,7 @@ for mwi in mwi_lst:
 
 # Debug mode switch
 # If on = the program asks to continue after each .mwi file
-debug = 0
+debug = 1
 
 
 # Start the GUI automation
@@ -118,8 +118,9 @@ for mwi in mwi_remain:
     time.sleep(1)
     # If debug mode is on, wait for the response.
     if debug == 1:
-        proceed = pyautogui.confirm("Do you want to continue?")
-          if proceed == 'OK':
-                continue
-          if proceed == None:
-                break
+        proceed = pyautogui.confirm('Do you want to continue?')
+        if proceed == 'OK':
+            continue
+        else:
+            pyautogui.alert('The process was stopped by user.')
+            break
