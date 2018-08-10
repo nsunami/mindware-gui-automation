@@ -11,6 +11,8 @@ pyautogui.FAILSAFE = True
 #current_path = 'W:\GitHub\mindware-gui-automation'
 #os.chdir(current_path)
 
+
+
 # define the 
 width, height = pyautogui.size()
 # Delay in the automation process
@@ -24,7 +26,7 @@ mwi_dir = "W:\OneDrive - CRHLab\Study Materials\EVv1 (Nami) - 2017 Spring\Data -
 txt_dir = mwi_dir + '\mwx2txt'
 
 if os.path.exists(txt_dir) == False:
-    
+    os.mkdir(txt_dir)
 
 # List of all the files in the .mwi directory
 files = os.listdir(mwi_dir)
@@ -48,6 +50,14 @@ debug = 0
 
 # Start the GUI automation
 for mwi in files_tbp:
+    # Show a dialog box to start
+    startup = pyautogui.confirm('Make sure to activate the BioLab window after clickng OK. You have 2 seconds to do so. ')
+    if startup == 'OK':
+        continue
+    else:
+        pyautogui.alert('The process was stopped by user.')
+        break
+
     # Go to File -> Open to open the dialog box
     pyautogui.hotkey('alt')
     pyautogui.hotkey('enter')
