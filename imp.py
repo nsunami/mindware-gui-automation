@@ -144,20 +144,20 @@ for mwi in files_tbp:
      grayscale=grayscale_bool, confidence = conf)
     while aa_on != None:
           pag.click(pag.locateCenterOnScreen('aa_on.png', grayscale=grayscale_bool, confidence = conf))
-          aa_off = pag.locateCenterOnScreen('auto_analyze_off.png', grayscale=grayscale_bool, , confidence = conf)
+          aa_off = pag.locateCenterOnScreen('auto_analyze_off.png', grayscale=grayscale_bool, confidence = conf)
     if aa_on != None:
         pag.alert('Cannot turn off the Auto Analyze Button')
         break
 
     # Check "Filter Events"
-    filter_all_status = pag.locateCenterOnScreen('filter_all.png', grayscale=grayscale_bool, , confidence = conf)
+    filter_all_status = pag.locateCenterOnScreen('filter_all.png', grayscale=grayscale_bool, confidence = conf)
     if filter_all_status == None:
         pag.alert('Set Filter Events -> All Events')
         break
 
     # Check event mode
-    event_mode_pre = pag.locateCenterOnScreen('event_mode_pre.png', grayscale=grayscale_bool, , confidence = conf)
-    event_mode_post = pag.locateCenterOnScreen('event_mode_post.png', grayscale=grayscale_bool, , confidence = conf)
+    event_mode_pre = pag.locateCenterOnScreen('event_mode_pre.png', grayscale=grayscale_bool, confidence = conf)
+    event_mode_post = pag.locateCenterOnScreen('event_mode_post.png', grayscale=grayscale_bool, confidence = conf)
     [emx, emy] = pag.locateCenterOnScreen('event_mode.png')
 
     # If UDP markers are present, we need 60 seconds before the FB end marker.
@@ -170,7 +170,7 @@ for mwi in files_tbp:
     pag.typewrite('pre')
     pag.hotkey('enter')
     # Verify that event mode is Pre
-    event_mode_pre = pag.locateCenterOnScreen('event_mode_pre.png', grayscale=grayscale_bool, , confidence = conf)
+    event_mode_pre = pag.locateCenterOnScreen('event_mode_pre.png', grayscale=grayscale_bool, confidence = conf)
     if event_mode_pre == None:
 
         pag.alert("Cannot change the event mode to pre")
@@ -189,16 +189,16 @@ for mwi in files_tbp:
     pag.hotkey('enter')
 
     # Event list---
-    event_head = pag.locateCenterOnScreen('events_list_head.png', grayscale=grayscale_bool, , confidence = conf)
+    event_head = pag.locateCenterOnScreen('events_list_head.png', grayscale=grayscale_bool, confidence = conf)
     pag.click(x = event_head[0], y = event_head[1] + 15)
     for i in range(20): pag.hotkey('up')
 
     # Set the event (FB end
-    fb_end = pag.locateCenterOnScreen('fb_end_inactive.png', grayscale=grayscale_bool, , confidence = conf)
+    fb_end = pag.locateCenterOnScreen('fb_end_inactive.png', grayscale=grayscale_bool, confidence = conf)
     if fb_end != None:
         pag.click(fb_end)
     elif fb_end == None:
-        F2_pb_begin_inactive = pag.locateCenterOnScreen('F2_pb_begin_inactive.png', grayscale=grayscale_bool, , confidence = conf)
+        F2_pb_begin_inactive = pag.locateCenterOnScreen('F2_pb_begin_inactive.png', grayscale=grayscale_bool, confidence = conf)
         pag.click(F2_pb_begin_inactive)
         if F2_pb_begin_inactive == None:
             continue
