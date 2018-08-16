@@ -82,7 +82,7 @@ for mwi in files_tbp:
 
     # Make sure that the active tab is 'Events and Modes'
     pag.click(pag.locateCenterOnScreen('events_and_modes.png', grayscale=grayscale_bool), clicks = 2)
-    
+
     # Go to File -> Open to open the dialog box
     pag.hotkey('alt')
     pag.hotkey('enter')
@@ -124,24 +124,26 @@ for mwi in files_tbp:
     # Go to "OK" button (shift + tab x 5 times)
     for i in range(5): pag.hotkey('shift', 'tab')
     pag.hotkey('enter')
-    
+
     #===================================================
     # Back to the main window
     #===================================================
 
     # Check Mode. If mode is not Events, change to events
-    mode_status = pag.locateCenterOnScreen('mode_event.png', grayscale = grayscale_bool)
-    while mode_status == None:
-          for i in range(2): pag.hotkey('tab')
-          pag.hotkey('down')
-          mode_status = pag.locateCenterOnScreen('mode_event.png', grayscale=grayscale_bool)
-          
+    pag.click(clickhere)
+    for i in range(2): pag.hotkey('tab')
+    pag.hotkey('space')
+    pag.typewrite('eve')
+    pag.hotkey('enter')
+
     # Check the Auto-Analyze Button, if on. Turn it off
     aa_on = pag.locateCenterOnScreen('aa_on.png', grayscale=grayscale_bool)
     while aa_on != None:
           pag.click(pag.locateCenterOnScreen('aa_on.png', grayscale=grayscale_bool))
           aa_off = pag.locateCenterOnScreen('auto_analyze_off.png', grayscale=grayscale_bool)
-
+    if aa_on != None:
+        pag.alert('Cannot turn off the Auto Analyze Button')
+        break
 
     # Check "Filter Events"
     filter_all_status = pag.locateCenterOnScreen('filter_all.png', grayscale=grayscale_bool)
@@ -166,7 +168,7 @@ for mwi in files_tbp:
     # Verify that event mode is Pre
     event_mode_pre = pag.locateCenterOnScreen('event_mode_pre.png', grayscale=grayscale_bool)
     if event_mode_pre == None:
-        
+
         pag.alert("Cannot change the event mode to pre")
         break
 
@@ -185,7 +187,7 @@ for mwi in files_tbp:
     event_head = pag.locateCenterOnScreen('events_list_head.png', grayscale=grayscale_bool)
     pag.click(x = event_head[0], y = event_head[1] + 15)
     for i in range(20): pag.hotkey('up')
-    
+
     # Set the event (FB end
     fb_end = pag.locateCenterOnScreen('fb_end_inactive.png', grayscale=grayscale_bool)
     if fb_end != None:
@@ -195,12 +197,12 @@ for mwi in files_tbp:
         pag.click(F2_pb_begin_inactive)
         if F2_pb_begin_inactive == None:
             continue
-        
+
 ##    fb_end_active = pag.locateCenterOnScreen('fb_end_active.png')
 ##    if fb_end_active == None:
 ##        pag.alert('Cannot activate Free Breathing End')
-    
-    
+
+
     #===================================================
     # Setup 'Impedance Calibration Settings'
     #===================================================
@@ -242,7 +244,7 @@ for mwi in files_tbp:
 ##        pag.click(x = rho_txt[0], y = rho_txt[1] + 15, clicks = 2)
     pag.hotkey('tab')
     pag.typewrite('135')
-    
+
     # Change Q point calc method (qcalc_txt_
 ##    qcalc = pag.locateCenterOnScreen('qcalc_txt.png')
 ##    pag.click(x = qcalc[0], y = qcalc[1] + 15)
@@ -314,11 +316,11 @@ for mwi in files_tbp:
     # LVET Min Offset
     pag.hotkey('shift', 'tab')
     pag.typewrite('300')
-    
-    
-    
-    
-    
+
+
+
+
+
 ##
 ##    # Check Ensemble Start-R (estart)
 ##    estart = pag.locateCenterOnScreen('estart.png')
@@ -459,8 +461,8 @@ for mwi in files_tbp:
     time.sleep(1)
 
     # Close the analyze window
-    pag.hotkey('ctrl', 'w')       
-    
+    pag.hotkey('ctrl', 'w')
+
     # If debug mode is on, wait for the response.
     if debug == 1:
         proceed = pag.confirm('Do you want to continue?')
