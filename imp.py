@@ -5,7 +5,7 @@ import numpy as np
 pag.PAUSE = .3
 pag.FAILSAFE = True
 
-conf = .9
+conf = .95
 
 width, height = pag.size()
 # Delay in the automation process
