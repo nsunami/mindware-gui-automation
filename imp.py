@@ -77,14 +77,14 @@ for mwi in files_tbp:
 
 
     # Determine the safe click area to go back to the window
-    clickhere = pag.locateCenterOnScreen('file_path.png', grayscale=grayscale_bool)
+    clickhere = pag.locateCenterOnScreen('file_path.png', grayscale=grayscale_bool, confidence = conf)
     if clickhere == None:
         pag.alert('Cannot see that IMP program is open. Process Terminated.')
         break
     pag.click(clickhere)
 
     # Make sure that the active tab is 'Events and Modes'
-    pag.click(pag.locateCenterOnScreen('events_and_modes.png', grayscale=grayscale_bool), clicks = 2)
+    pag.click(pag.locateCenterOnScreen('events_and_modes.png', grayscale=grayscale_bool, confidence = conf), clicks = 2)
 
     # Go to File -> Open to open the dialog box
     pag.hotkey('alt')
@@ -101,7 +101,7 @@ for mwi in files_tbp:
     # The channel mapping window opens by default.
     ######
     # Check if the channel setup is correct.
-    chan_status = pag.locateCenterOnScreen('channels.png', grayscale=grayscale_bool)
+    chan_status = pag.locateCenterOnScreen('channels.png', grayscale=grayscale_bool, confidence = conf)
     if chan_status == None:
           # Map the channels
           # Channel 1 = ECG
