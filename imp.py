@@ -5,7 +5,7 @@ import numpy as np
 pag.PAUSE = .3
 pag.FAILSAFE = True
 
-conf = .95
+conf = .98
 
 width, height = pag.size()
 # Delay in the automation process
@@ -14,8 +14,8 @@ time.sleep(2)
 
 ## This is the folder with the .mwi file.
 # Change it to reflect the directly
-#mwi_dir = "C:\\Users\\asdf\\OneDrive - CRHLab\\Study Materials\\EVv1 (Nami) - 2017 Spring\\Data - Electronic and Recruitment\Mindware"
-mwi_dir = 'W:\OneDrive - CRHLab\Study Materials\EVv1 (Nami) - 2017 Spring\Data - Electronic and Recruitment\Mindware'
+mwi_dir = "C:\\Users\\asdf\\OneDrive - CRHLab\\Study Materials\\EVv1 (Nami) - 2017 Spring\\Data - Electronic and Recruitment\Mindware"
+#mwi_dir = 'W:\OneDrive - CRHLab\Study Materials\EVv1 (Nami) - 2017 Spring\Data - Electronic and Recruitment\Mindware'
 excel_dir = mwi_dir + "\Excel files\Auto"
 pag.prompt(text = 'Confirm the folder containing the original mwi files',
  title = 'Confirm Folder', default = mwi_dir)
@@ -36,7 +36,9 @@ for name in files:
 files_finished = [w.replace('.xlsx', '') for w in os.listdir(excel_dir)]
 
 # Get the list of files to be processed.
-files_tbp = set(mwi_lst) - set(files_finished)
+files_tbp_set = set(mwi_lst) - set(files_finished)
+files_tbp = list(files_tbp_set)
+files_tbp.sort()
 
 
 # Get the list of participats with chest electrode measurements
@@ -49,13 +51,14 @@ for name in mwi_lst:
     mwi_ids.append(re.search('[0-9]{2,6}', name).group(0))
 
 mwi_ids_int = np.array(mwi_ids).astype(int)
+mwi_ids_int.sort()
 
 missing = np.in1d(ids, mwi_ids_int)
 missing_id = ids[np.invert(missing)]
 
 # Debug mode switch
 # If on = the program asks to continue after each .mwi file
-debug = 1
+debug = 0
 
 # Show a dialog box to start
 startup = pag.confirm('Make sure to activate the IMP window after clickng OK. You have 2 seconds to do so. ')
@@ -67,14 +70,12 @@ grayscale_bool = True
 
 # Start the GUI automation
 for mwi in files_tbp:
-
+    time.sleep(1)
+      
     # Look for the chest electrode distance based on pid
     pid = np.array(re.search('[0-9]{2,6}', mwi).group(0), dtype = int)
     index = np.where(chest_electrodes == pid)
     electrode_cm = chest_electrodes[index, 1][0]
-
-
-
 
     # Determine the safe click area to go back to the window
     clickhere = pag.locateCenterOnScreen('file_path.png', grayscale=grayscale_bool, confidence = conf)
@@ -98,6 +99,7 @@ for mwi in files_tbp:
     pag.hotkey('enter')
     # Wait for one sec
     time.sleep(1)
+
     # The channel mapping window opens by default.
     ######
     # Check if the channel setup is correct.
@@ -131,6 +133,10 @@ for mwi in files_tbp:
     #===================================================
     # Back to the main window
     #===================================================
+    fb_end = pag.locateCenterOnScreen('fb_end_inactive.png', grayscale=grayscale_bool, confidence = conf)
+    F2_pb_begin_inactive = pag.locateCenterOnScreen('F2_pb_begin_inactive.png', grayscale=grayscale_bool, confidence = conf)
+    if fb_end == None and F2_pb_begin_inactive == None: continue
+
 
     # Check Mode. If mode is not Events, change to events
     pag.click(clickhere)
