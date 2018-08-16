@@ -5,6 +5,8 @@ import numpy as np
 pag.PAUSE = .3
 pag.FAILSAFE = True
 
+conf = .9
+
 width, height = pag.size()
 # Delay in the automation process
 # the program starts to run after 2 seconds of clicking
@@ -15,7 +17,8 @@ time.sleep(2)
 #mwi_dir = "C:\\Users\\asdf\\OneDrive - CRHLab\\Study Materials\\EVv1 (Nami) - 2017 Spring\\Data - Electronic and Recruitment\Mindware"
 mwi_dir = 'W:\OneDrive - CRHLab\Study Materials\EVv1 (Nami) - 2017 Spring\Data - Electronic and Recruitment\Mindware'
 excel_dir = mwi_dir + "\Excel files\Auto"
-pag.prompt(text = 'Confirm the folder containing the original mwi files', title = 'Confirm Folder', default = mwi_dir)
+pag.prompt(text = 'Confirm the folder containing the original mwi files',
+ title = 'Confirm Folder', default = mwi_dir)
 
 
 # List of all the files in the .mwi directory
@@ -137,23 +140,24 @@ for mwi in files_tbp:
     pag.hotkey('enter')
 
     # Check the Auto-Analyze Button, if on. Turn it off
-    aa_on = pag.locateCenterOnScreen('aa_on.png', grayscale=grayscale_bool)
+    aa_on = pag.locateCenterOnScreen('aa_on.png',
+     grayscale=grayscale_bool, confidence = conf)
     while aa_on != None:
-          pag.click(pag.locateCenterOnScreen('aa_on.png', grayscale=grayscale_bool))
-          aa_off = pag.locateCenterOnScreen('auto_analyze_off.png', grayscale=grayscale_bool)
+          pag.click(pag.locateCenterOnScreen('aa_on.png', grayscale=grayscale_bool, confidence = conf))
+          aa_off = pag.locateCenterOnScreen('auto_analyze_off.png', grayscale=grayscale_bool, , confidence = conf)
     if aa_on != None:
         pag.alert('Cannot turn off the Auto Analyze Button')
         break
 
     # Check "Filter Events"
-    filter_all_status = pag.locateCenterOnScreen('filter_all.png', grayscale=grayscale_bool)
+    filter_all_status = pag.locateCenterOnScreen('filter_all.png', grayscale=grayscale_bool, , confidence = conf)
     if filter_all_status == None:
         pag.alert('Set Filter Events -> All Events')
         break
 
     # Check event mode
-    event_mode_pre = pag.locateCenterOnScreen('event_mode_pre.png', grayscale=grayscale_bool)
-    event_mode_post = pag.locateCenterOnScreen('event_mode_post.png', grayscale=grayscale_bool)
+    event_mode_pre = pag.locateCenterOnScreen('event_mode_pre.png', grayscale=grayscale_bool, , confidence = conf)
+    event_mode_post = pag.locateCenterOnScreen('event_mode_post.png', grayscale=grayscale_bool, , confidence = conf)
     [emx, emy] = pag.locateCenterOnScreen('event_mode.png')
 
     # If UDP markers are present, we need 60 seconds before the FB end marker.
@@ -166,7 +170,7 @@ for mwi in files_tbp:
     pag.typewrite('pre')
     pag.hotkey('enter')
     # Verify that event mode is Pre
-    event_mode_pre = pag.locateCenterOnScreen('event_mode_pre.png', grayscale=grayscale_bool)
+    event_mode_pre = pag.locateCenterOnScreen('event_mode_pre.png', grayscale=grayscale_bool, , confidence = conf)
     if event_mode_pre == None:
 
         pag.alert("Cannot change the event mode to pre")
@@ -180,20 +184,21 @@ for mwi in files_tbp:
     # Set the Event to Use to "User Defined"
     pag.click(clickhere)
     for i in range(11): pag.hotkey('tab')
+    pag.hotkey('space')
     pag.typewrite('u')
     pag.hotkey('enter')
 
     # Event list---
-    event_head = pag.locateCenterOnScreen('events_list_head.png', grayscale=grayscale_bool)
+    event_head = pag.locateCenterOnScreen('events_list_head.png', grayscale=grayscale_bool, , confidence = conf)
     pag.click(x = event_head[0], y = event_head[1] + 15)
     for i in range(20): pag.hotkey('up')
 
     # Set the event (FB end
-    fb_end = pag.locateCenterOnScreen('fb_end_inactive.png', grayscale=grayscale_bool)
+    fb_end = pag.locateCenterOnScreen('fb_end_inactive.png', grayscale=grayscale_bool, , confidence = conf)
     if fb_end != None:
         pag.click(fb_end)
     elif fb_end == None:
-        F2_pb_begin_inactive = pag.locateCenterOnScreen('F2_pb_begin_inactive.png', grayscale=grayscale_bool)
+        F2_pb_begin_inactive = pag.locateCenterOnScreen('F2_pb_begin_inactive.png', grayscale=grayscale_bool, , confidence = conf)
         pag.click(F2_pb_begin_inactive)
         if F2_pb_begin_inactive == None:
             continue
@@ -213,26 +218,26 @@ for mwi in files_tbp:
     pag.hotkey('right')
 
     # Check if the tab is open
-    imp_calibration = pag.locateCenterOnScreen('impedance_calibration.png', grayscale=grayscale_bool)
+    imp_calibration = pag.locateCenterOnScreen('impedance_calibration.png', grayscale=grayscale_bool, confidence = conf)
     if imp_calibration == None:
         pag.alert('Tab is not open. Terminated the process.')
         break
 
     # Check if Calculate TPR is off
-    calculate_TPR = pag.locateCenterOnScreen('calc_TPR_checked.png', grayscale=grayscale_bool)
+    calculate_TPR = pag.locateCenterOnScreen('calc_TPR_checked.png', grayscale=grayscale_bool, confidence = conf)
     if calculate_TPR != None:
         pag.click(clickhere)
         for i in range(7): pag.hotkey('tab')
         pag.hotkey('space')
 
     # check 'Electrode Type'
-    electrode_type = pag.locateCenterOnScreen('electrode_spot.png', grayscale=grayscale_bool)
+    electrode_type = pag.locateCenterOnScreen('electrode_spot.png', grayscale=grayscale_bool, confidence = conf)
     if electrode_type == None:
         pag.alert('Electrode Type is not Spot')
         break
 
     # Enter Electrode Distance
-    e_distance = pag.locateCenterOnScreen('e_distance.png', grayscale=grayscale_bool)
+    e_distance = pag.locateCenterOnScreen('e_distance.png', grayscale=grayscale_bool, confidence = conf)
     pag.click(x = e_distance[0], y = e_distance[1] + 15, clicks = 2)
     # Write down the electrode cm
     pag.typewrite(str(electrode_cm))
@@ -345,32 +350,32 @@ for mwi in files_tbp:
     pag.hotkey('right')
 
     # is R peak settings complete?
-    r_peak_settings_complete = pag.locateCenterOnScreen('rpeak_settings_complete.png', grayscale=grayscale_bool)
+    r_peak_settings_complete = pag.locateCenterOnScreen('rpeak_settings_complete.png', grayscale=grayscale_bool, confidence = conf)
     if r_peak_settings_complete == None:
         # focus on Max HR
-        max_HR = pag.locateCenterOnScreen('max_HR.png', grayscale=grayscale_bool)
+        max_HR = pag.locateCenterOnScreen('max_HR.png', grayscale=grayscale_bool, confidence = conf)
         pag.click(x = max_HR[0], y = max_HR[1] + 15, clicks = 2)
         pag.typewrite('200')
 
         # Notch Filter
         pag.click(x = max_HR[0], y = max_HR[1] + 15, clicks = 2)
-        notch_off = pag.locateCenterOnScreen('notch_off.png', grayscale=grayscale_bool)
+        notch_off = pag.locateCenterOnScreen('notch_off.png', grayscale=grayscale_bool, confidence = conf)
         if notch_off != None:
             pag.hotkey('tab')
             pag.hotkey('space')
 
-        notch_off = pag.locateCenterOnScreen('notch_off.png', grayscale=grayscale_bool)
+        notch_off = pag.locateCenterOnScreen('notch_off.png', grayscale=grayscale_bool, confidence = conf)
         if notch_off != None:
             pag.alert('Cannot turn on the Notch Filter')
             break
 
         # baseline muscle filter should be checked
         pag.click(x = max_HR[0], y = max_HR[1] + 15, clicks = 2)
-        baseline_unchecked = pag.locateCenterOnScreen('baseline_filter_unchecked.png', grayscale=grayscale_bool)
+        baseline_unchecked = pag.locateCenterOnScreen('baseline_filter_unchecked.png', grayscale=grayscale_bool, confidence = conf)
         if baseline_unchecked != None:
             for i in range(2): pag.hotkey('tab')
             pag.hotkey('space')
-            baseline_unchecked = pag.locateCenterOnScreen('baseline_filter_unchecked.png', grayscale=grayscale_bool)
+            baseline_unchecked = pag.locateCenterOnScreen('baseline_filter_unchecked.png', grayscale=grayscale_bool, confidence = conf)
             if baseline_unchecked != None:
                 pag.alert('Cannot turn on the muscle filter')
                 break
@@ -379,11 +384,11 @@ for mwi in files_tbp:
         pag.click(x = max_HR[0], y = max_HR[1] + 15, clicks = 2)
 
         # Manual Override Check
-        manual_override_on = pag.locateCenterOnScreen('manual_override_on.png', grayscale=grayscale_bool)
+        manual_override_on = pag.locateCenterOnScreen('manual_override_on.png', grayscale=grayscale_bool, confidence = conf)
         if manual_override_on != None:
             for i in range(3): pag.hotkey('tab')
             pag.hotkey('space')
-            manual_override_on = pag.locateCenterOnScreen('manual_override_on.png', grayscale=grayscale_bool)
+            manual_override_on = pag.locateCenterOnScreen('manual_override_on.png', grayscale=grayscale_bool, confidence = conf)
             if manual_override_on != None:
                 pag.alert('Cannot turn off the manual override')
 
@@ -391,7 +396,7 @@ for mwi in files_tbp:
         pag.click(x = max_HR[0], y = max_HR[1] + 15, clicks = 2)
 
         # Notch 60Hz
-        notch60 = pag.locateCenterOnScreen('notch60.png', grayscale=grayscale_bool)
+        notch60 = pag.locateCenterOnScreen('notch60.png', grayscale=grayscale_bool, confidence = conf)
         if notch60 == None:
             for i in range(4): pag.hotkey('tab')
             pag.hotkey('space')
@@ -413,7 +418,7 @@ for mwi in files_tbp:
         pag.typewrite('40')
 
         # MAD MED Check On?
-        MAD_on = pag.locateCenterOnScreen('MAD_on.png', grayscale=grayscale_bool)
+        MAD_on = pag.locateCenterOnScreen('MAD_on.png', grayscale=grayscale_bool, confidence = conf)
         if MAD_on == None:
             pag.hotkey('shift', 'tab')
             pag.hotkey('space')
@@ -425,7 +430,7 @@ for mwi in files_tbp:
         pag.click(x = max_HR[0], y = max_HR[1] + 15, clicks = 2)
 
         # IBI Check On?
-        IBI_on = pag.locateCenterOnScreen('IBI_on.png', grayscale=grayscale_bool)
+        IBI_on = pag.locateCenterOnScreen('IBI_on.png', grayscale=grayscale_bool, confidence = conf)
         if IBI_on == None:
             for i in range(3): pag.hotkey('shift', 'tab')
             pag.hotkey('space')
@@ -452,7 +457,7 @@ for mwi in files_tbp:
     shot = pag.screenshot(mwi + '_pre.png')
 
     # Analyze Window Opens
-    write = pag.locateCenterOnScreen('write.png', grayscale=grayscale_bool)
+    write = pag.locateCenterOnScreen('write.png', grayscale=grayscale_bool, confidence = conf)
     pag.click(write)
 
     # Create a new Excel Output? -> Yes
