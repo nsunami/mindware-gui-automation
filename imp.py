@@ -68,10 +68,12 @@ time.sleep(2)
 # Grayscale match?
 grayscale_bool = True
 
+files_tbp = files_tbp[files_tbp.index('17996_0.mwi'):]
+
 # Start the GUI automation
 for mwi in files_tbp:
     time.sleep(1)
-      
+
     # Look for the chest electrode distance based on pid
     pid = np.array(re.search('[0-9]{2,6}', mwi).group(0), dtype = int)
     index = np.where(chest_electrodes == pid)
@@ -268,10 +270,10 @@ for mwi in files_tbp:
     ## Go back to the distance...entering will exit out of the tab
     pag.click(x = e_distance[0], y = e_distance[1] + 15, clicks = 2)
 
-    # Go to b-point calc --> choose max slope
+    # Go to b-point calc --> choose max slope Change as per Arbol et a. 2017
     for i in range(3): pag.hotkey('tab')
     pag.hotkey('space')
-    pag.typewrite('max')
+    pag.typewrite('max slope change')
     pag.hotkey('enter')
 
     # Go back s
@@ -456,7 +458,7 @@ for mwi in files_tbp:
     pag.hotkey('space')
 
     # Is the dZ/dt inverted?
-    time.sleep(2)
+    time.sleep(1.5)
     pag.hotkey('space')
 
     # Take a screenshot
@@ -469,7 +471,13 @@ for mwi in files_tbp:
     # Create a new Excel Output? -> Yes
     pag.hotkey('tab')
     pag.hotkey('space')
-    time.sleep(1)
+    time.sleep(.5)
+
+    # Tab to the Excel and Close it
+##    pag.hotkey('alt', 'tab')
+##    time.sleep(.5)
+    pag.hotkey('alt', 'f4')
+    time.sleep(.5)
 
     # Close the analyze window
     pag.hotkey('ctrl', 'w')
@@ -482,3 +490,5 @@ for mwi in files_tbp:
         else:
             pag.alert('The process was stopped by user.')
             break
+
+print('The last processed file was: ' + mwi)
